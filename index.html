@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCMD - Home</title>
+    <style>
+        button {
+            background-color: white;
+            color: black;
+            border-radius: 8px;
+            border: none;
+            padding: 8px;
+            font-size: large;
+            cursor: pointer;
+        }
+
+        .panel {
+            color: white;
+            background-color: rgba(20, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            margin: 0px auto;
+            border-radius: 16px;
+            justify-content: center;
+            padding: 24px;
+            max-width: 1100px;
+        }
+
+        .panel-container {
+            margin: auto;
+            padding: 16px;
+        }
+
+        html {
+            background: url("src/background.jpeg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100%;
+        }
+
+        * {
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+        }
+
+        nav {
+            color: white;
+            background-color: rgba(20, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            display: flex;
+            margin: 16px;
+            border-radius: 16px;
+        }
+
+        .nav-buttons>button,
+        .nav-buttons-alt>button {
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px 8px;
+            margin: 8px;
+            font-size: xx-large;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: right;
+            width: 100%;
+        }
+
+        .nav-buttons-alt {
+            display: none;
+        }
+
+        nav h1 {
+            margin-left: 16px;
+        }
+
+        nav h1 a {
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Routing CSS */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Wallpaper Gallery Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .gallery-card {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .gallery-card span {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .download-btn {
+            background-color: white;
+            color: black;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            display: inline-block;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .download-btn:hover {
+            background-color: #ddd;
+        }
+
+        /* Modal Overlay & Card */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background-color: rgba(20, 0, 0, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 600px;
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-card h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .modal-card code {
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            text-align: left;
+            word-break: break-all;
+            color: #50fa7b;
+            display: block;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-buttons-alt {
+                display: flex;
+                justify-content: right;
+                width: 100%;
+            }
+
+            .nav-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <h1><a href="#home">MacMCMD</a></h1>
+        <div class="nav-buttons">
+            <button onclick="navigateTo('wallpapers')">Wallpapers</button>
+            <button onclick="navigateTo('generators')">Generators</button>
+        </div>
+        <div class="nav-buttons-alt">
+            <button onclick="navigateTo('wallpapers')">W</button>
+            <button onclick="navigateTo('generators')">G</button>
+        </div>
+    </nav>
+
+    <div class="panel-container">
+        <div id="home" class="page active">
+            <div class="panel">
+                <h1 style="text-align: center;">MacMCMD</h1>
+                <p style="text-align: center;">MacMCMD is for editing settings on provisioned computers with personalization settings blocked. It requires only an unelevated terminal and can set accent colors, dark mode, wallpapers (default wallpapers and custom ones), and most other dock/appearance settings.</p>
+                <p style="text-align: center;">In other words, it lets you personalize school macs.</p>
+                <p style="text-align: center;"> If you want to download the whole site (excl. wallpapers), then you can click the button below.</p>
+                <button style="display: flex;">Download MacMCMD</button>
+            </div>
+        </div>
+
+        <div id="wallpapers" class="page">
+            <div class="panel">
+                <h1 style="text-align: center;">Wallpapers</h1>
+                <p style="text-align: center;">Browse and download default and custom wallpapers for your setup.</p>
+
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <img src="src/background.jpeg" alt="Wallpaper 1">
+                        <span>Default Wallpaper</span>
+                        <button onclick="downloadWallpaper('src/background.jpeg', 'background.jpeg')" class="download-btn">Download</button>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="src/background.jpeg" alt="Wallpaper 2">
+                        <span>Custom Wallpaper 1</span>
+                        <button onclick="downloadWallpaper('src/background.jpeg', 'custom_wallpaper_1.jpeg')" class="download-btn">Download</button>
+                    </div>
+                    <div class="gallery-card">
+                        <img src="src/background.jpeg" alt="Wallpaper 3">
+                        <span>Custom Wallpaper 2</span>
+                        <button onclick="downloadWallpaper('src/background.jpeg', 'custom_wallpaper_2.jpeg')" class="download-btn">Download</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="generators" class="page">
+            <div class="panel">
+                <h1 style="text-align: center;">Generators</h1>
+                <p style="text-align: center;">Generate configuration scripts and custom settings easily.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <h2>Wallpaper Downloaded!</h2>
+            <p style="text-align: left; margin: 0;">Run this command in your unelevated Terminal to set the image as your active wallpaper:</p>
+            <code id="scriptCode">osascript -e 'tell application "Finder" to set desktop picture to POSIX file "'"$HOME"'/Downloads/filename.jpeg"'</code>
+            <div class="modal-actions">
+                <button onclick="copyCommand()" id="copyBtn">Copy Command</button>
+                <button onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleRoute() {
+            const hash = window.location.hash.replace('#', '') || 'home';
+            const pages = document.querySelectorAll('.page');
+            let foundRoute = false;
+
+            pages.forEach(page => {
+                if (page.id === hash) {
+                    page.classList.add('active');
+                    foundRoute = true;
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            if (!foundRoute) {
+                document.getElementById('home').classList.add('active');
+                window.location.hash = 'home';
+            }
+
+            const titleMap = {
+                'home': 'MCMD - Home',
+                'wallpapers': 'MCMD - Wallpapers',
+                'generators': 'MCMD - Generators'
+            };
+            document.title = titleMap[hash] || 'MCMD - Home';
+        }
+
+        function navigateTo(route) {
+            window.location.hash = route;
+        }
+
+        async function downloadWallpaper(fileUrl, fileName) {
+            try {
+                // Fetch the file as a raw blob over HTTP/HTTPS
+                const response = await fetch(fileUrl);
+                const blob = await response.blob();
+                
+                // Create an object URL pointing to the downloaded blob
+                const blobUrl = URL.createObjectURL(blob);
+                
+                // Create a temporary hidden link element to trigger the download prompt
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Clean up memory and trigger the popup script modal
+                URL.revokeObjectURL(blobUrl);
+                showModal(fileName);
+            } catch (err) {
+                console.error('Download failed:', err);
+            }
+        }
+
+        function showModal(fileName) {
+            const command = `osascript -e 'tell application "Finder" to set desktop picture to POSIX file "'"$HOME"'/Downloads/${fileName}"'`;
+            document.getElementById('scriptCode').textContent = command;
+
+            const copyBtn = document.getElementById('copyBtn');
+            copyBtn.textContent = 'Copy Command';
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function closeModal(event) {
+            if (!event || event.target.id === 'modalOverlay' || event.target.tagName === 'BUTTON') {
+                document.getElementById('modalOverlay').classList.remove('active');
+            }
+        }
+
+        function copyCommand() {
+            const textToCopy = document.getElementById('scriptCode').textContent;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = 'Copied!';
+            });
+        }
+
+        window.addEventListener('hashchange', handleRoute);
+        window.addEventListener('DOMContentLoaded', handleRoute);
+    </script>
+</body>
+
+</html>
